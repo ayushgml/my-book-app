@@ -19,7 +19,6 @@ func NewBookHandler(repository storage.PostgresBookRepository) *BookHandler {
 	}
 }
 
-
 func (h *BookHandler) CreateBook(w http.ResponseWriter, r *http.Request) {
     var newBook book.Book
     err := json.NewDecoder(r.Body).Decode(&newBook)

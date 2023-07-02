@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 
+	_ "github.com/lib/pq"
+
 	"github.com/gorilla/mux"
 
 	"my-book-app/api"
@@ -40,7 +42,7 @@ func main() {
 
 func connectToDatabase() (*sql.DB, error) {
 	// Set up the PostgreSQL connection parameters
-	connStr := "postgres://postgres:1234@localhost:5432/test?sslmode=disable"
+	connStr := "postgres://postgres:1234@host.docker.internal:5432/test?sslmode=disable"
 
 	// Connect to the database
 	db, err := sql.Open("postgres", connStr)
