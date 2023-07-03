@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 
 	"github.com/gorilla/mux"
@@ -41,9 +43,14 @@ func main() {
 }
 
 func connectToDatabase() (*sql.DB, error) {
+	godotenv.Load()
+	username := os.Getenv("USERNAME")
+	password := os.Getenv("PASSWORD")
+	ip := os.Getenv("IP")
+	database := os.Getenv("DATABASE")
 	// Set up the PostgreSQL connection parameters
-	connStr := "postgres://postgres:1234@host.docker.internal:5432/test?sslmode=disable"
-
+	connStr := "postgres://"+username+":"+password+"@"+ip+":5432/"+database+"?sslmode=disable"
+	
 	// Connect to the database
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
