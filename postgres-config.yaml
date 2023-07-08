@@ -8,3 +8,6 @@ data:
   POSTGRES_DB: postgres
   POSTGRES_USER: admin
   POSTGRES_PASSWORD: test123
+  POSTGRES_PRIMARY_SERVICE_HOST: postgres-primary
+  POSTGRES_PRIMARY_SERVICE_PORT: "5432"
+  POSTGRES_REPLICATE_FROM: "admin:test123@postgres-primary:5432"

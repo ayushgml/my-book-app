@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: postgres-primary
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: postgres-primary
   template:
     metadata:
       labels:
-        app: postgres
+        app: postgres-primary
     spec:
       containers:
         - name: postgres
@@ -27,4 +27,7 @@ spec:
       volumes:
         - name: postgresdata
           persistentVolumeClaim:
-            claimName: postgres-pv-claim
+            claimName: postgres-pvc
+        - name: postgres-config
+          configMap:
+            name: postgres-primary-configmap
