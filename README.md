@@ -113,7 +113,7 @@ The API request goes to ingress controller which then forwards the request to my
 
 #### Running on cloud
 
-5. Now I deployed it on Civo cloud. So I had to create a firewall rule to allow traffic on port 8080(it may be on by default). You can do the same on your cloud provider. If you are using Minikube then you can stop here.
+5. Now I deployed it on Civo cloud(because I found it cheaper to deploy on that). So I had to create a firewall rule to allow traffic on port 8080(it may be on by default). You can do the same on your cloud provider. If you are using Minikube then you can stop here.
    I downloaded the kubeconfig file from Civo(you can download from your cloud provider cluster) and then ran the following command to connect to the cluster.
 
    ```
@@ -158,6 +158,10 @@ The API request goes to ingress controller which then forwards the request to my
 
     <img src="assets/ss2.png" alt="cloud provider screenshot">
 
+
+## Cluster graph
+The below graph is made with Monokle graph view of default namespace with depth=5 from Persistent Volume Claim.
+<img src="assets/cluster-graph.png"/>
 
 <!-- CONTACT -->
 
