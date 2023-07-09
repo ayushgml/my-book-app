@@ -1,8 +1,0 @@
-package student
-
-type Student struct {
-    ID        int
-    Name      string
-    Email     string
-    Password  string
-}
