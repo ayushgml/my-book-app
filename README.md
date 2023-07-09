@@ -17,20 +17,21 @@
 
 ## About The Project
 
-This project is a Go backend API with PostgreSQL as the database. The app is containerized using Docker and deployed on Kubernetes. The app is deployed on a single node cluster using Minikube. The app is exposed to the host machine using NodePort service type. Following tech stack is used in the project:
+This project is a Go backend API with PostgreSQL as the database. The app is containerized using Docker and deployed on Kubernetes. The app is deployed on a single node cluster using Civo cloud(you can use minikube if you want. I have shown both ways!). The app is exposed using the LoadBalancer service of my-app. Following tech is used in the project:
 
 - Go
 - PostgreSQL
 - Docker
 - Kubernetes
+- YAML
 
 Prequisites:
 
 - Docker installed on the host machine
-- Minikube installed on the host machine
+- Minikube installed on the host machine(If you want to run on your local machine instead of cloud)
 - Some knowledge about YAML (you can learn that from <a href="https://itsayush.hashnode.dev/yaml-and-monokle">here</a>)
 - Some knowledge about Kubernetes (you can learn that from <a href="https://itsayush.hashnode.dev/k8s-101">here</a>)
-- A cloud Provider account such as AWS, Civo, Azure, Google cloud etc. (I am using Civo in this project). This is onnly if you want to deploy your cluster on cloud.
+- A cloud Provider account such as AWS, Civo, Azure, Google cloud etc. (I am using Civo in this project). This is only if you want to deploy your cluster on cloud.
 
 ## Project Structure
 
@@ -95,7 +96,7 @@ The API request goes to ingress controller which then forwards the request to my
     kubectl apply -f ingress.yaml
    ```
 
-   The sate of the cluster should look like this:
+   The state of the cluster should look like this(if you are deploying using minikube):
 
     <img src="assets/ss.png" alt=""/>
 
@@ -162,6 +163,39 @@ The API request goes to ingress controller which then forwards the request to my
 ## Cluster graph
 The below graph is made with Monokle graph view of default namespace with depth=5 from Persistent Volume Claim.
 <img src="assets/cluster-graph.png"/>
+
+
+## Continuous Integration
+
+I used github Actions to build and push the docker image to Dockerhub. The workflow is triggered when a push is made to the main branch. The workflow is defined in the .github/workflows folder. The workflow is defined in the docker-image.yml file. The file is shown below:
+
+```
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ayushgml/my-book-app-image:latest
+
+    - name: Log in to Docker Hub
+      run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASS }}
+
+    - name: Push the Docker image
+      run: docker push ayushgml/my-book-app-image:latest
+```
+
+Make sure you add DOCKERHUB_USERNAME and DOCKERHUB_PASS in the secrets section of the repository settings. You can get the username and password from Dockerhub.
 
 <!-- CONTACT -->
 
